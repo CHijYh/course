@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "title": "Кисловодск · 1 км²",
+  "dataset_kind": "real geodata with procedural trees where tagged forest exists",
+  "area": {
+    "center": [
+      42.73,
+      43.907
+    ],
+    "width_m": 1000,
+    "height_m": 1000,
+    "crs": "EPSG:32638"
+  },
+  "inputs": {
+    "dem": "dem.tif",
+    "rgb": "rgb.tif",
+    "objects": "objects.geojson"
+  },
+  "parameters": {
+    "long_side_mm": 180.0,
+    "base_mm": 3.0,
+    "exaggeration": 1.0,
+    "grid_nodes": 201,
+    "smooth": false,
+    "buildings": true,
+    "trees": true,
+    "adapt_trees": true,
+    "max_buildings": 30,
+    "max_trees": 30,
+    "seed": 42,
+    "tree_spacing_m": 8.0,
+    "min_trunk_mm": 1.2,
+    "min_crown_mm": 3.0,
+    "min_tree_height_mm": 4.0
+  },
+  "output": "output",
+  "sources": [
+    {
+      "name": "FABDEM V1-2",
+      "url": "https://data.bris.ac.uk/datasets/s5hqmjcdj8yo2ibzi9b4ew3sn/N40E040-N50E050_FABDEM_V1-2.zip",
+      "license": "CC BY-NC-SA 4.0",
+      "tile": "N43E042_FABDEM_V1-2.tif",
+      "citation": "Neal et al. (2023), doi:10.5523/bris.s5hqmjcdj8yo2ibzi9b4ew3sn",
+      "retrieved_at": "2026-11-16T16:28:36.256404+00:00"
+    },
+    {
+      "name": "Sentinel-2 L2A visual (RGB)",
+      "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/37/T/GJ/2025/9/S2C_37TGJ_20250923_0_L2A/TCI.tif",
+      "item": "S2C_37TGJ_20250923_0_L2A",
+      "acquisition_date": "2025-09-23T08:18:04.218000Z",
+      "tile_cloud_cover": 0.000169,
+      "license": "Copernicus Sentinel data terms",
+      "terms": "https://dataspace.copernicus.eu/terms-and-conditions",
+      "credit": "Contains modified Copernicus Sentinel data (2025).",
+      "retrieved_at": "2026-11-16T16:28:36.256404+00:00"
+    },
+    {
+      "name": "© OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/copyright",
+      "endpoint": "https://overpass-api.de/api/interpreter",
+      "license": "ODbL 1.0",
+      "feature_count": 474,
+      "query": "[out:json][timeout:40];(way[\"building\"](43.902377901545016,42.7236066815758,43.91162179449005,42.73639238280348);node[\"natural\"=\"tree\"](43.902377901545016,42.7236066815758,43.91162179449005,42.73639238280348);way[\"landuse\"=\"forest\"](43.902377901545016,42.7236066815758,43.91162179449005,42.73639238280348);way[\"natural\"=\"wood\"](43.902377901545016,42.7236066815758,43.91162179449005,42.73639238280348););out geom;",
+      "retrieved_at": "2026-11-16T16:28:36.256404+00:00"
+    }
+  ]
+}

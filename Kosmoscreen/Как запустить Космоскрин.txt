@@ -1,0 +1,141 @@
+﻿КОСМОСКРИН
+Установка и запуск программы
+
+Сначала распакуйте ZIP-архив целиком. Внутри откройте папку Kosmoscreen,
+в которой лежит файл pyproject.toml. Все команды ниже выполняются из этой папки.
+Выберите раздел для своей системы. Команды вводите по одной, нажимая Enter.
+Для первой установки библиотек понадобится интернет.
+
+WINDOWS
+
+Откройте папку Kosmoscreen в Проводнике. В адресной строке введите
+powershell и нажмите Enter.
+
+При первом запуске после распаковки установите 64-разрядный Python 3.12
+с сайта python.org. В установщике включите pip, Tcl/Tk и Python Launcher
+(команда py). Затем создайте окружение и установите библиотеки.
+
+   py -3.12 -m venv .venv
+   $py = '.\.venv\Scripts\python.exe'
+   & $py -m pip install -r requirements-lock.txt
+   & $py -m pip install --no-deps -e .
+
+В каждом новом окне PowerShell в папке Kosmoscreen снова задайте $py.
+
+   $py = '.\.venv\Scripts\python.exe'
+
+Если в исходной рабочей папке уже есть рабочее окружение
+.downloads\kosmoscreen-venv, можно выбрать его одной командой.
+
+   $py = '.\.downloads\kosmoscreen-venv\Scripts\python.exe'
+
+Чтобы открыть окно программы, выполните:
+
+   & $py -B -m landscape gui
+
+Команды приложения А
+
+А.1. Проверка данных и просмотр Кисловодска.
+
+   & $py -B -m landscape check examples/kislovodsk/project.json
+   & $py -B -m landscape build examples/kislovodsk/project.json --preview
+   & $py -B -m landscape view examples/kislovodsk/output/preview/scene.npz --mode scene
+
+Проверка выводит "valid": true, а построение — «Сцена готова». Закройте
+окно 3D-просмотра перед запуском вида сверху с горизонталями через 10 м:
+
+   & $py -B -m landscape view examples/kislovodsk/output/preview/scene.npz --mode contours --contour-interval 10 --top
+
+А.2. Автоматические тесты и опыт с поверхностью Франке.
+Для каждого запуска тестов создаётся отдельная временная папка внутри проекта.
+
+   New-Item -ItemType Directory -Force -Path '.downloads' | Out-Null
+   $testTemp = Join-Path (Get-Location).Path ('.downloads/pytest-' + [guid]::NewGuid().ToString('N'))
+   & $py -B -m pytest -q -x -p no:cacheprovider --basetemp $testTemp
+
+После успешного завершения тестов создайте искусственный участок и запустите опыт:
+
+   & $py -B -m landscape demo .downloads/coursework-franke --method analytic
+   & $py -B -m landscape experiment .downloads/coursework-franke/project.json
+
+Когда увидите сообщение «Таблицы сохранены», выведите результаты:
+
+   Import-Csv .downloads/coursework-franke/experiments/results.csv | Format-Table grid, adapt_trees, triangles
+
+
+macOS
+
+Первый запуск
+1. Установите Python 3.12 с поддержкой Tk, например из установщика python.org.
+2. Откройте «Терминал». Чтобы перейти в папку программы, введите cd и пробел,
+   перетащите распакованную папку Kosmoscreen из Finder в окно терминала
+   и нажмите Return.
+3. Выполните по очереди:
+
+   python3.12 -m venv .venv
+   .venv/bin/python -m pip install -e ".[dev]"
+   .venv/bin/python -m landscape gui
+
+Повторный запуск
+Перейдите в ту же папку и выполните:
+
+   .venv/bin/python -m landscape gui
+
+
+LINUX
+
+Первый запуск
+1. Понадобятся Python 3.12, модуль venv и поддержка Tk. Например, в Ubuntu
+   24.04 со штатным Python 3.12 их можно установить командой:
+
+   sudo apt install python3.12 python3-venv python3-tk
+
+2. Откройте терминал в распакованной папке Kosmoscreen и выполните:
+
+   python3.12 -m venv .venv
+   .venv/bin/python -m pip install -e ".[dev]"
+   .venv/bin/python -m landscape gui
+
+Повторный запуск
+Откройте терминал в той же папке и выполните:
+
+   .venv/bin/python -m landscape gui
+
+На Linux без графического рабочего стола можно построить STL из терминала:
+
+   .venv/bin/python -m landscape build examples/kislovodsk/project.json
+
+Результат появится в examples/kislovodsk/output/model.stl.
+
+
+КОМАНДЫ ПРИЛОЖЕНИЯ А НА macOS И LINUX
+
+Для проверки данных, построения и просмотра Кисловодска выполните команды
+из папки проекта. Перед переходом к горизонталям закройте окно 3D-сцены.
+
+   .venv/bin/python -B -m landscape check examples/kislovodsk/project.json
+   .venv/bin/python -B -m landscape build examples/kislovodsk/project.json --preview
+   .venv/bin/python -B -m landscape view examples/kislovodsk/output/preview/scene.npz --mode scene
+   .venv/bin/python -B -m landscape view examples/kislovodsk/output/preview/scene.npz --mode contours --contour-interval 10 --top
+
+Для тестов и опыта Франке выполните команды в этой же папке.
+
+   mkdir -p .downloads
+   test_temp="$(mktemp -d .downloads/pytest-XXXXXXXX)"
+   .venv/bin/python -B -m pytest -q -x -p no:cacheprovider --basetemp "$test_temp/work"
+   .venv/bin/python -B -m landscape demo .downloads/coursework-franke --method analytic
+   .venv/bin/python -B -m landscape experiment .downloads/coursework-franke/project.json
+
+Итоги опыта сохраняются в .downloads/coursework-franke/experiments/results.csv.
+
+
+КАК ПОСМОТРЕТЬ ПЕРВУЮ СЦЕНУ
+
+После запуска в окне программы уже выбран Кисловодск. Нажмите «Проверить
+данные», затем «Построить сцену». Когда сцена будет готова, нажмите
+«Открыть просмотр». Для трёхмерного просмотра требуется поддержка OpenGL.
+Чтобы посмотреть гору Фудзи, нажмите «Открыть проект», выберите
+examples/fuji/project.json и повторите те же действия.
+
+Атрибуция спутникового снимка Кисловодска
+Contains modified Copernicus Sentinel data (2025).

@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "title": "Гора Фудзи · 6 × 6 км",
+  "dataset_kind": "real geodata",
+  "area": {
+    "center": [138.7275, 35.3608],
+    "width_m": 6000,
+    "height_m": 6000
+  },
+  "inputs": {
+    "dem": "dem.tif",
+    "rgb": "rgb.tif"
+  },
+  "parameters": {
+    "long_side_mm": 180,
+    "base_mm": 3,
+    "exaggeration": 1,
+    "grid_nodes": 201,
+    "smooth": false,
+    "buildings": false,
+    "trees": false,
+    "adapt_trees": false,
+    "max_buildings": 0,
+    "max_trees": 0,
+    "seed": 42,
+    "tree_spacing_m": 8
+  },
+  "output": "output",
+  "sources": [
+    {
+      "name": "Copernicus DEM GLO-30 Public (2021 release)",
+      "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N35_00_E138_00_DEM/Copernicus_DSM_COG_10_N35_00_E138_00_DEM.tif",
+      "catalog": "https://registry.opendata.aws/copernicus-dem/",
+      "license": "Copernicus DEM GLO-30 Public licence",
+      "terms": "https://dataspace.copernicus.eu/sites/default/files/media/files/2025-06/copernicus_contributing_mission_data_access_v2_cop_dem_licenses.pdf",
+      "vertical_reference": "EGM2008, metres",
+      "credit": "Produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.",
+      "notice": "The organisations in charge of the Copernicus programme by law or by delegation do not incur any liability for any use of the Copernicus WorldDEM-30.",
+      "retrieved_at": "2026-11-19",
+      "processing": "Cropped on the source pixel grid with a four-pixel margin."
+    },
+    {
+      "name": "Sentinel-2 L2A visual (RGB)",
+      "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/54/S/TE/2025/10/S2B_54STE_20251028_0_L2A/TCI.tif",
+      "item": "S2B_54STE_20251028_0_L2A",
+      "acquisition_date": "2025-10-28",
+      "license": "Copernicus Sentinel data terms",
+      "terms": "https://dataspace.copernicus.eu/terms-and-conditions",
+      "credit": "Contains modified Copernicus Sentinel data (2025).",
+      "retrieved_at": "2026-11-19",
+      "processing": "Cropped on the source pixel grid with a four-pixel margin."
+    }
+  ]
+}
